@@ -7,6 +7,9 @@
     "id": "org.nativescript.sonder",
     "tns-android": {
       "version": "3.2.0"
+    },
+    "tns-ios": {
+      "version": "3.2.0"
     }
   },
   "scripts": {
@@ -22,6 +25,7 @@
     "@angular/platform-browser": "4.2.5",
     "@angular/router": "4.2.5",
     "nativescript-angular": "4.2.0",
+    "nativescript-facebook": "^2.0.1",
     "nativescript-theme-core": "1.0.4",
     "reflect-metadata": "0.1.10",
     "rxjs": "5.4.3",

@@ -5,6 +5,14 @@ import { NSModuleFactoryLoader } from "nativescript-angular/router";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 
+import * as application from 'application';
+
+let nsFacebook = require('nativescript-facebook');
+
+application.on(application.launchEvent, function (args) {
+    nsFacebook.init("897988177030305");
+});
+
 @NgModule({
     bootstrap: [
         AppComponent
