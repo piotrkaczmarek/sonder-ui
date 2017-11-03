@@ -5,6 +5,8 @@ import { NSModuleFactoryLoader } from "nativescript-angular/router";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 
+import { AuthenticationService } from "./login/authentication.service";
+
 import * as application from 'application';
 
 let nsFacebook = require('nativescript-facebook');
@@ -25,6 +27,7 @@ application.on(application.launchEvent, function (args) {
         AppComponent
     ],
     providers: [
+        AuthenticationService,
         { provide: NgModuleFactoryLoader, useClass: NSModuleFactoryLoader }
     ],
     schemas: [
