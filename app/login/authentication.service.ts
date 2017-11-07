@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
-import * as Facebook from "nativescript-facebook";
+import * as FacebookSdk from "nativescript-facebook";
+import { login as fbLogin, logout as fbLogout } from "nativescript-facebook";
 import { Observable } from "rxjs/Rx";
 import { User } from "./user";
 import * as http from "tns-core-modules/http";
@@ -7,30 +8,50 @@ import { config } from "../app.config";
 
 @Injectable()
 export class AuthenticationService {
+    public isLoggedIn: boolean = false;
+    public user: User;
+
     private accessToken: string;
-    private user: User;
 
     constructor(
     ) { }
 
     login(): Observable<any> {
-        let userDataRequestObservable = Observable.bindNodeCallback(Facebook.login)()
-                                                  .flatMap(this.fetchUserData);
-        userDataRequestObservable.subscribe(this.onLoginSuccess, this.onLoginFailure);
-        return userDataRequestObservable;
+        this.isLoggedIn = false;
+        let tokenRequestObservable = Observable.bindNodeCallback(FacebookSdk.login)()
+                                               .map(data => data['token']);
+        let userDataObservable = tokenRequestObservable
+            .flatMap(this.fetchUserData)
+            .flatMap((user) => this.onLoginSuccess.apply(this, [user]));
+        tokenRequestObservable.subscribe(token => {
+            this.accessToken = token
+        }, error => this.clearData.apply(this));
+        return userDataObservable;
     }
 
-    fetchUserData(data): Observable<any> {
-        this.accessToken = data.token;
-        let url: string = config.FACEBOOK_GRAPH_API_URL + `/me?access_token=${this.accessToken}`;
+    logout(): void {
+        FacebookSdk.logout(()=> {});
+        this.clearData.apply(this);
+        this.isLoggedIn = false;
+    }
+
+    getUser(): User {
+        return this.user;
+    }
+
+    private onLoginSuccess(user): Observable<any> {
+        this.user = user;
+        this.isLoggedIn = true;
+        return Observable.create(observer => observer.next());
+    }
+
+    private fetchUserData(accessToken): Observable<any> {
+        let url: string = config.FACEBOOK_GRAPH_API_URL + `/me?access_token=${accessToken}`;
         return Observable.fromPromise(http.getJSON(url));
     }
 
-    onLoginSuccess(data): void {
-        this.user = data;
-    }
-
-    onLoginFailure(error): void {
+    private clearData(): void {
         this.accessToken = null;
+        this.user = null;
     }
 }

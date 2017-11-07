@@ -3,6 +3,7 @@ import { Routes } from "@angular/router";
 import { NativeScriptRouterModule } from "nativescript-angular/router";
 
 import { LoginComponent } from "./login.component";
+import { AuthGuard } from "./auth-guard.service";
 
 const routes: Routes = [
     { path: "", component: LoginComponent }
@@ -10,6 +11,9 @@ const routes: Routes = [
 
 @NgModule({
     imports: [NativeScriptRouterModule.forChild(routes)],
-    exports: [NativeScriptRouterModule]
+    exports: [NativeScriptRouterModule],
+    providers: [
+        AuthGuard
+    ]
 })
 export class LoginRoutingModule { }

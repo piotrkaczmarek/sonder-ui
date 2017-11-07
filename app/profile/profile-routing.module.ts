@@ -1,18 +1,19 @@
 import { NgModule } from "@angular/core";
 import { Routes } from "@angular/router";
 import { NativeScriptRouterModule } from "nativescript-angular/router";
-import { AuthGuard } from '../login/auth-guard.service';
 
-import { TabsComponent } from "./tabs.component";
+import { ProfileComponent } from "./profile.component";
+import { AuthGuard } from "../login/auth-guard.service";
 
 const routes: Routes = [
-    { path: "", component: TabsComponent, canActivate: [AuthGuard] }
+    { path: "", component: ProfileComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({
     imports: [NativeScriptRouterModule.forChild(routes)],
     exports: [NativeScriptRouterModule],
     providers: [
+        AuthGuard
     ]
 })
-export class TabsRoutingModule { }
+export class ProfileRoutingModule { }

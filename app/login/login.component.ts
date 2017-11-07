@@ -1,14 +1,20 @@
 import { Component, OnInit } from "@angular/core";
 import { AuthenticationService } from "./authentication.service"
 
+import { Router } from "@angular/router";
+import { RouterExtensions } from "nativescript-angular/router";
+
 @Component({
     selector: "LoginComponent",
     moduleId: module.id,
     templateUrl: "./login.component.html"
 })
 export class LoginComponent implements OnInit {
+    private errorMessage: string;
     constructor(
-        private authenticationService: AuthenticationService
+        private authenticationService: AuthenticationService,
+        private router: Router,
+        private routerExtensions: RouterExtensions
     ) { }
 
     ngOnInit(): void {
@@ -17,9 +23,12 @@ export class LoginComponent implements OnInit {
 
     login() {
         this.authenticationService.login().subscribe(
-            data => {
+            () => {
+                this.errorMessage = null;
+                this.routerExtensions.navigate(['/profile']);
             },
             error => {
+                this.errorMessage = error;
             }
         );
     }

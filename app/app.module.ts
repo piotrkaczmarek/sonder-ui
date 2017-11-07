@@ -6,6 +6,7 @@ import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 
 import { AuthenticationService } from "./login/authentication.service";
+import { AuthGuard } from "./login/auth-guard.service";
 
 import * as application from 'application';
 
@@ -28,6 +29,7 @@ application.on(application.launchEvent, function (args) {
     ],
     providers: [
         AuthenticationService,
+        AuthGuard,
         { provide: NgModuleFactoryLoader, useClass: NSModuleFactoryLoader }
     ],
     schemas: [
