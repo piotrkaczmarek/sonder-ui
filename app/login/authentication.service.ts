@@ -17,6 +17,7 @@ export class AuthenticationService {
     ) { }
 
     login(): Observable<any> {
+        // return this.fakeLogin.apply(this);
         this.isLoggedIn = false;
         let tokenRequestObservable = Observable.bindNodeCallback(FacebookSdk.login)()
                                                .map(data => data['token']);
@@ -37,6 +38,13 @@ export class AuthenticationService {
 
     getUser(): User {
         return this.user;
+    }
+
+    private fakeLogin(): Observable<any> {
+        this.user = new User('12345', 'Piotr Kaczmarek');
+        this.isLoggedIn = true;
+        this.accessToken = 'abcd';
+        return Observable.create(observer => observer.next());
     }
 
     private onLoginSuccess(user): Observable<any> {
