@@ -1,4 +1,7 @@
 import { Component, OnInit } from "@angular/core";
+import { RouterExtensions } from "nativescript-angular/router";
+
+import { AuthenticationService } from "../../login/authentication.service";
 
 @Component({
     selector: "Home",
@@ -6,15 +9,19 @@ import { Component, OnInit } from "@angular/core";
     templateUrl: "./home.component.html"
 })
 export class HomeComponent implements OnInit {
-    constructor() {
-        /* ***********************************************************
-        * Use the constructor to inject services.
-        *************************************************************/
+    public name: string;
+    constructor(
+        public auth: AuthenticationService,
+        private routerExtensions: RouterExtensions
+    ) {
     }
 
     ngOnInit(): void {
-        /* ***********************************************************
-        * Use the "ngOnInit" handler to initialize data for the view.
-        *************************************************************/
+        this.name = this.auth.user.name;
+    }
+
+    logout(): void {
+        this.auth.logout();
+        this.routerExtensions.navigate(['/login'], { clearHistory: true })
     }
 }

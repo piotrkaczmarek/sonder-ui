@@ -15,7 +15,7 @@ import * as tnsOAuthModule from 'nativescript-oauth';
 var facebookInitOptions: tnsOAuthModule.ITnsOAuthOptionsFacebook = {
     clientId: '897988177030305',
     clientSecret: 'bbd78c3b3bff9ae668fd24ad55fffef7',
-    scope: ['email']
+    scope: ['public_profile', 'email']
 };
 
 tnsOAuthModule.initFacebook(facebookInitOptions);

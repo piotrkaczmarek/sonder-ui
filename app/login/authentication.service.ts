@@ -8,7 +8,7 @@ import * as tnsOAuthModule from 'nativescript-oauth';
 
 @Injectable()
 export class AuthenticationService {
-    public isLoggedIn: boolean = false;
+    private loggedIn: boolean = false;
     public user: User;
 
     private accessToken: string;
@@ -32,6 +32,10 @@ export class AuthenticationService {
         this.clearData.apply(this);
     }
 
+    isLoggedIn?(): boolean {
+        return this.loggedIn;
+    }
+
     // private fakeLogin(): Observable<any> {
     //     this.user = new User('12345', 'Piotr Kaczmarek');
     //     this.isLoggedIn = true;
@@ -41,7 +45,7 @@ export class AuthenticationService {
 
     private onLoginSuccess(user): Observable<any> {
         this.user = user;
-        this.isLoggedIn = true;
+        this.loggedIn = true;
         return Observable.create(observer => observer.next());
     }
 
@@ -51,7 +55,7 @@ export class AuthenticationService {
     }
 
     private clearData(): void {
-        this.isLoggedIn = false;
+        this.loggedIn = false;
         this.accessToken = null;
         this.user = null;
     }

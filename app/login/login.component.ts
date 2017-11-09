@@ -1,7 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { AuthenticationService } from "./authentication.service"
 
-import { Router } from "@angular/router";
 import { RouterExtensions } from "nativescript-angular/router";
 
 @Component({
@@ -13,7 +12,6 @@ export class LoginComponent implements OnInit {
     private errorMessage: string;
     constructor(
         private authenticationService: AuthenticationService,
-        private router: Router,
         private routerExtensions: RouterExtensions
     ) { }
 
@@ -25,11 +23,8 @@ export class LoginComponent implements OnInit {
         this.authenticationService.login().subscribe(
             () => {
                 this.errorMessage = null;
-                this.routerExtensions.navigate(['/profile']);
+                this.routerExtensions.navigate(['/tabs'], { clearHistory: true });
             },
-            error => {
-                this.errorMessage = error;
-            }
-        );
+            error => this.errorMessage = error);
     }
 }
