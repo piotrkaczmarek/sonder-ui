@@ -10,11 +10,15 @@ import { AuthGuard } from "./login/auth-guard.service";
 
 import * as application from 'application';
 
-let nsFacebook = require('nativescript-facebook');
+import * as tnsOAuthModule from 'nativescript-oauth';
 
-application.on(application.launchEvent, function (args) {
-    nsFacebook.init("897988177030305");
-});
+var facebookInitOptions: tnsOAuthModule.ITnsOAuthOptionsFacebook = {
+    clientId: '897988177030305',
+    clientSecret: 'bbd78c3b3bff9ae668fd24ad55fffef7',
+    scope: ['email']
+};
+
+tnsOAuthModule.initFacebook(facebookInitOptions);
 
 @NgModule({
     bootstrap: [
