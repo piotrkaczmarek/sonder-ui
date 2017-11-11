@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { RouterExtensions } from "nativescript-angular/router";
 
 import { AuthenticationService } from "../../login/authentication.service";
+import { User } from "../../login/user";
 
 @Component({
     selector: "Home",
@@ -9,15 +10,16 @@ import { AuthenticationService } from "../../login/authentication.service";
     templateUrl: "./home.component.html"
 })
 export class HomeComponent implements OnInit {
-    public name: string;
+    public user: User;
     constructor(
         public auth: AuthenticationService,
         private routerExtensions: RouterExtensions
     ) {
+        this.user = this.auth.user;
     }
 
     ngOnInit(): void {
-        this.name = this.auth.user.name;
+        this.user = this.auth.user;
     }
 
     logout(): void {

@@ -18,6 +18,5 @@ export class ProfileComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
-        this.name = this.auth.user.name;
     }
 }

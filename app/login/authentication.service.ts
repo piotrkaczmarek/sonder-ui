@@ -6,6 +6,8 @@ import { config } from "../app.config";
 
 import * as tnsOAuthModule from 'nativescript-oauth';
 
+let qs = require('qs');
+
 @Injectable()
 export class AuthenticationService {
     private loggedIn: boolean = false;
@@ -44,13 +46,20 @@ export class AuthenticationService {
     // }
 
     private onLoginSuccess(user): Observable<any> {
+        if(user.hasOwnProperty('error')) { return Observable.throw(new Error(user.error['message'])); }
+
         this.user = user;
         this.loggedIn = true;
         return Observable.create(observer => observer.next());
     }
 
     private fetchUserData(accessToken): Observable<any> {
-        let url: string = config.FACEBOOK_GRAPH_API_URL + `/me?access_token=${accessToken}`;
+        let query = qs.stringify({
+            access_token: accessToken,
+            fields: ['id', 'first_name', 'age_range', 'cover', 'email', 'picture'].join(',')
+        }, { encode: false });
+        let url: string = `${config.FACEBOOK_GRAPH_API_URL}/me?${query}`
+
         return Observable.fromPromise(http.getJSON(url));
     }
 
