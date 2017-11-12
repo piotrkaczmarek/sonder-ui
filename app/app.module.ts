@@ -5,8 +5,8 @@ import { NSModuleFactoryLoader } from "nativescript-angular/router";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 
-import { AuthenticationService } from "./login/authentication.service";
-import { AuthGuard } from "./login/auth-guard.service";
+import { AuthenticationService } from "./auth/authentication.service";
+import { AuthGuard } from "./auth/auth-guard.service";
 
 import * as application from 'application';
 

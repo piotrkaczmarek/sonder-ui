@@ -1,7 +1,7 @@
 import { NgModule } from "@angular/core";
 import { Routes } from "@angular/router";
 import { NativeScriptRouterModule } from "nativescript-angular/router";
-import { AuthGuard } from '../login/auth-guard.service';
+import { AuthGuard } from '../auth/auth-guard.service';
 
 import { TabsComponent } from "./tabs.component";
 

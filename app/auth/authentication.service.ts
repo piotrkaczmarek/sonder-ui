@@ -6,8 +6,6 @@ import { config } from "../app.config";
 
 import * as tnsOAuthModule from 'nativescript-oauth';
 
-let qs = require('qs');
-
 @Injectable()
 export class AuthenticationService {
     private loggedIn: boolean = false;
@@ -20,12 +18,11 @@ export class AuthenticationService {
 
     login(): Observable<any> {
         this.clearData.apply(this);
-        let tokenRequestObservable = Observable.fromPromise(tnsOAuthModule.ensureValidToken())
-        let userDataObservable = tokenRequestObservable
-            .flatMap(this.authenticateBackend)
-            .flatMap((user) => this.onLoginSuccess.apply(this, [user]));
-        tokenRequestObservable.subscribe(token => this.accessToken = token,
-                                         error => this.clearData.apply(this));
+        let userDataObservable = Observable.fromPromise(tnsOAuthModule.ensureValidToken())
+                                           .flatMap(this.authenticateBackend)
+                                           .flatMap(user => this.onLoginSuccess.apply(this, [user]))
+        userDataObservable.subscribe(user => this.loggedIn = true,
+                                     error => this.clearData.apply(this));
         return userDataObservable;
     }
 
@@ -40,9 +37,9 @@ export class AuthenticationService {
 
     private onLoginSuccess(user): Observable<any> {
         if(user.hasOwnProperty('error')) { return Observable.throw(new Error(user.error['message'])); }
-
+        this.accessToken = user["facebook_access_token"];
         this.user = user;
-        this.loggedIn = true;
+
         return Observable.create(observer => observer.next());
     }
 

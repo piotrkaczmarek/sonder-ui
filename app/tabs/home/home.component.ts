@@ -1,8 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { RouterExtensions } from "nativescript-angular/router";
 
-import { AuthenticationService } from "../../login/authentication.service";
-import { User } from "../../login/user";
+import { AuthenticationService } from "../../auth/authentication.service";
+import { User } from "../../auth/user";
 
 @Component({
     selector: "Home",
