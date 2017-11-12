@@ -22,7 +22,7 @@ export class AuthenticationService {
         this.clearData.apply(this);
         let tokenRequestObservable = Observable.fromPromise(tnsOAuthModule.ensureValidToken())
         let userDataObservable = tokenRequestObservable
-            .flatMap(this.fetchUserData)
+            .flatMap(this.authenticateBackend)
             .flatMap((user) => this.onLoginSuccess.apply(this, [user]));
         tokenRequestObservable.subscribe(token => this.accessToken = token,
                                          error => this.clearData.apply(this));
@@ -38,13 +38,6 @@ export class AuthenticationService {
         return this.loggedIn;
     }
 
-    // private fakeLogin(): Observable<any> {
-    //     this.user = new User('12345', 'Piotr Kaczmarek');
-    //     this.isLoggedIn = true;
-    //     this.accessToken = 'abcd';
-    //     return Observable.create(observer => observer.next());
-    // }
-
     private onLoginSuccess(user): Observable<any> {
         if(user.hasOwnProperty('error')) { return Observable.throw(new Error(user.error['message'])); }
 
@@ -53,14 +46,15 @@ export class AuthenticationService {
         return Observable.create(observer => observer.next());
     }
 
-    private fetchUserData(accessToken): Observable<any> {
-        let query = qs.stringify({
-            access_token: accessToken,
-            fields: ['id', 'first_name', 'age_range', 'cover', 'email', 'picture'].join(',')
-        }, { encode: false });
-        let url: string = `${config.FACEBOOK_GRAPH_API_URL}/me?${query}`
-
-        return Observable.fromPromise(http.getJSON(url));
+    private authenticateBackend(accessToken): Observable<any> {
+        let httpRequestPromise = http.request({
+            url: "http://0.0.0.0:4000/api/authenticate",
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            content: JSON.stringify({ access_token: accessToken })
+        });
+        return Observable.fromPromise(httpRequestPromise)
+                         .map((response) => response.content.toJSON().data);
     }
 
     private clearData(): void {
