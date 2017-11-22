@@ -6,6 +6,8 @@ import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 
 import { AuthenticationService } from "./auth/authentication.service";
+import { ApiBackendService } from "./common/api-backend.service";
+import { PartyService } from "./common/party.service";
 import { AuthGuard } from "./auth/auth-guard.service";
 
 import * as application from 'application';
@@ -33,7 +35,9 @@ tnsOAuthModule.initFacebook(facebookInitOptions);
     ],
     providers: [
         AuthenticationService,
+        ApiBackendService,
         AuthGuard,
+        PartyService,
         { provide: NgModuleFactoryLoader, useClass: NSModuleFactoryLoader }
     ],
     schemas: [

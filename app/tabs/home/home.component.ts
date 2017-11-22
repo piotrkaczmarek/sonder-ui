@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { RouterExtensions } from "nativescript-angular/router";
 
 import { AuthenticationService } from "../../auth/authentication.service";
-import { User } from "../../auth/user";
+import { User } from "../../common/user";
 
 @Component({
     selector: "Home",

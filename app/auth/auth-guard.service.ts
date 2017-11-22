@@ -5,7 +5,7 @@ import {
     RouterStateSnapshot
 } from '@angular/router';
 import { RouterExtensions } from "nativescript-angular/router";
-import { AuthenticationService } from "./authentication.service"
+import { AuthenticationService } from "./authentication.service";
 
 @Injectable()
 export class AuthGuard implements CanActivate {

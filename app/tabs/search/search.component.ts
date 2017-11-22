@@ -1,4 +1,6 @@
 import { Component, OnInit } from "@angular/core";
+import { PartyService } from "../../common/party.service";
+import { Party } from "../../common/party";
 
 @Component({
     selector: "Search",
@@ -6,15 +8,14 @@ import { Component, OnInit } from "@angular/core";
     templateUrl: "./search.component.html"
 })
 export class SearchComponent implements OnInit {
-    constructor() {
-        /* ***********************************************************
-        * Use the constructor to inject services.
-        *************************************************************/
+    public parties: Array<Party> = [];
+
+    constructor(private partyService: PartyService) {
     }
 
     ngOnInit(): void {
-        /* ***********************************************************
-        * Use the "ngOnInit" handler to initialize data for the view.
-        *************************************************************/
+        this.partyService.getParties().subscribe(parties => {
+            this.parties = parties;
+        });
     }
 }
