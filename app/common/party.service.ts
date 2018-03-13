@@ -7,6 +7,7 @@ import { Party } from "./party";
 @Injectable()
 export class PartyService {
     private parties: Array<Party> = [];
+    private requestedParties: Array<Party> = [];
     constructor(private backend: ApiBackendService
     ) { }
 
@@ -16,9 +17,24 @@ export class PartyService {
         }
         let observable = this.backend.get("/parties");
         observable.subscribe(parties => {
-            debugger;
             this.parties = parties;
-        })
+        });
+        return observable;
+    }
+
+    dismissParty(partyId): Observable<any> {
+        let observable = this.backend.put(`/parties/${partyId}/dismiss`);
+        observable.subscribe(() => {
+            debugger;
+        });
+        return observable;
+    }
+
+    requestParty(partyId): Observable<any> {
+        let observable = this.backend.put(`/parties/${partyId}/request`);
+        observable.subscribe(() => {
+            debugger;
+        });
         return observable;
     }
 }

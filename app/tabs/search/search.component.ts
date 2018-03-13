@@ -14,8 +14,19 @@ export class SearchComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.getParties();
+    }
+
+    getParties(): void {
         this.partyService.getParties().subscribe(parties => {
             this.parties = parties;
         });
+    }
+    dismiss(partyId): void {
+        this.partyService.dismissParty(partyId);
+    }
+
+    request(partyId): void {
+        this.partyService.requestParty(partyId);
     }
 }

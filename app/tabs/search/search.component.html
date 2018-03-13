@@ -6,7 +6,10 @@ Feel free to customize layouts and components to change how the tab view looks.
     <Label class="page-icon fa" text="&#xf002;"></Label>
     <ListView [items]="parties">
         <ng-template let-party="item">
-            <Label [text]="party.members.length + ' / ' + party.size"></Label>
+            <Party [party]="item"></Party>
+            <!-- <Label [text]="party.members.length + ' / ' + party.size"></Label> -->
+            <!-- <Button text="Dismiss" (tap)="dismiss(party.id)"></Button> -->
+            <!-- <Button text="Request" (tap)="request(party.id)"></Button> -->
         </ng-template>
     </ListView>
 </GridLayout>

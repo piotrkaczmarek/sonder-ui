@@ -13,6 +13,10 @@ export class ApiBackendService {
         return this.request('GET', path, params);
     }
 
+    put(path: string, params: any = {}): Observable<any> {
+        return this.request('PUT', path, params);
+    }
+
     post(path: string, params: any = {}): Observable<any> {
         return this.request('POST', path, params);
     }
